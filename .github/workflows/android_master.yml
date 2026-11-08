@@ -20,7 +20,15 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Create throwaway debug keystore
+        run: |
+          keytool -genkeypair -keystore /tmp/debug.jks -storepass android -keypass android -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
       - name: Build debug APK
+        env:
+          SIGN_KEY_STORE_FILE: /tmp/debug.jks
+          SIGN_KEY_STORE_PASSWORD: android
+          SIGN_KEY_ALIAS: androiddebugkey
+          SIGN_KEY_PASSWORD: android
         run: ./gradlew :app:assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
