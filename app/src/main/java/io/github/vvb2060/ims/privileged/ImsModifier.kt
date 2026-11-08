@@ -127,6 +127,19 @@ class ImsModifier : Instrumentation() {
                 )
                 bundle.putBoolean(CarrierConfigManager.KEY_EDITABLE_WFC_MODE_BOOL, true)
                 bundle.putBoolean(CarrierConfigManager.KEY_EDITABLE_WFC_ROAMING_MODE_BOOL, true)
+
+                // E911 定制（Red Pocket / 小米 17）：境外漫游默认开 + 弹出 E911 地址入口。
+                // 注意：KEY_CARRIER_DEFAULT_WFC_IMS_ROAMING_ENABLED_BOOL 是隐藏键，
+                // 公开 SDK 里没有该常量，故用 raw string；其余两个键用公开常量。
+                bundle.putBoolean("carrier_default_wfc_ims_roaming_enabled_bool", true)
+                bundle.putString(
+                    CarrierConfigManager.KEY_WFC_EMERGENCY_ADDRESS_CARRIER_APP_STRING,
+                    "com.android.imsserviceentitlement/.WfcQnsActivationActivity"
+                )
+                bundle.putBoolean(
+                    CarrierConfigManager.ImsServiceEntitlement.KEY_SHOW_VOWIFI_WEBVIEW_BOOL,
+                    true
+                )
                 // KEY_SHOW_WIFI_CALLING_ICON_IN_STATUS_BAR_BOOL
                 bundle.putBoolean("show_wifi_calling_icon_in_status_bar_bool", true)
                 // KEY_WFC_SPN_FORMAT_IDX_INT
